@@ -1,0 +1,8 @@
+data:
+  timezone_identifier: Asia/Singapore
+  delimiter: ","
+  decimal: false
+  filename: import.csv
+  datetime_format: "%YYYY-%m-%d"
+  unit_from_entity: false
+action: import_statistics.import_from_file
