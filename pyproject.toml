@@ -1,6 +1,7 @@
 [project]
 name = "import-sp-power-stats-to-ha"
 version = "0.1.0"
-description = "Add your description here"
+description = "Import SP Power Stats data into Home Assistant"
+readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []
