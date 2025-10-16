@@ -18,7 +18,7 @@ from collections import defaultdict
 
 input_file = "hourly_input.csv"
 output_file = "sp_services_import_hourly.csv"
-sensor_id = "sensor:sp_power_energy_import"
+sensor_id = "sensor.sp_power_energy_import"
 unit = "kWh"
 
 cumulative = float(input("Enter the starting Cumulative value: "))

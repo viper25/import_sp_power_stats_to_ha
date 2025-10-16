@@ -16,7 +16,7 @@ from datetime import datetime
 
 input_file = "daily_input.csv"
 output_file = "sp_services_import_daily.csv"
-sensor_id = "sensor:sp_power_energy_import"
+sensor_id = "sensor.sp_power_energy_import"
 unit = "kWh"
 
 cumulative = float(input("Enter the starting Cumulative value: "))

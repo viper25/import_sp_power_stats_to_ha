@@ -5,25 +5,45 @@ using [this](https://github.com/klausj1/homeassistant-statistics?tab=readme-ov-f
 to be available for 6 months (inclusive of current running month). The hourly stats seem to be available only for 2
 weeks (inclusive of current running week).
 
-After adding from HACS, add the following to configuration.yaml
+After adding from HACS, add the following to `configuration.yaml`
 
 ## Steps:
 
-1. Download monthly csv data from https://services.spservices.sg/dashboard
-2. Make a note of the current cumulative value of the data at http://homeassistant.local/developer-tools/statistics
-3. Run the script to generate import.csv
-4. Place contents in /CONFIG folder in Home Assistant
-5. Run the script to import the data as below:
+- Download monthly csv data from https://services.spservices.sg/dashboard
+- Create a Template Sensor (under Helpers) in Home Assistant (one-time)
+  Example:
+    ```yaml
+    template:
+        - sensor:
+            - name: "SP Power Energy Import"
+              state: "{{ states('sensor.sp_power_energy_import') }}"
+              unit_of_measurement: "kWh"
+              device_class: energy
+              state_class: total_increasing
+    ```
+- Restart Home Assistant & Set the value of `sensor.sp_power_energy_import` = 0 in Developer Tools > States (one-time).
+  It will be 'unknown' initially. This is needed, else the Energy dashboard will complain.
+- ~~Now set the static price of electricity
+  in [Settings > Energy Dashboard > Grid](http://homeassistant.local/config/energy). This has to be done before
+  importing the data else the price will not be retroactively applied.~~
+- Make a note of the current cumulative value of the data at http://homeassistant.local/developer-tools/statistics (if not running the first time)
+- Run the script to generate say, `convert_to_cumulative_daily.csv`
+- Place file in /CONFIG folder in Home Assistant
+- Run the script to import the data as below:
     ```yaml
     data:
-      timezone_identifier: Asia/Singapore
-      delimiter: ","
-      decimal: false
-      filename: import.tsv
-      datetime_format: "%Y.%m.%d"
-      unit_from_entity: false
-    action: import_statistics.import_from_file
+        timezone_identifier: Asia/Singapore
+        delimiter: ","
+        decimal: false
+        filename: sp_services_import_daily.csv
+        datetime_format: "%Y.%m.%d"
+        unit_from_entity: false
+        action: import_statistics.import_from_file
     ```
+- Do the same for hourly data
+
+> One time: Import the sensor in the Energy Dashboard under "Grid". If it shows, no state, then set state to `0` in
+> Developer Tools and rerun the above script again.
 
 ## Notes
 
@@ -59,3 +79,7 @@ Hourly:
 "2025-10-02 02:00:00","1.8"
 "2025-10-02 02:30:00","1.6"
 ```
+
+## Reference:
+
+https://chatgpt.com/share/68efa265-dc24-800f-b75f-752123759097
