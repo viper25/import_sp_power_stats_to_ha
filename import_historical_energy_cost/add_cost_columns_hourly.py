@@ -84,7 +84,7 @@ def main() -> None:
 
             writer.writerow({
                 "statistic_id": "sensor.sp_power_energy_import_cost",
-                "unit": row["unit"],
+                "unit": "SGD",
                 "start": row["start"],
                 "state": state_cost,
                 "sum": sum_cost,
